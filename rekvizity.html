@@ -17,10 +17,16 @@
   section{margin:2.2rem 0}
   h2{font-size:1.3rem;margin:0 0 1rem}
   .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.5rem}
-  .tool textarea{width:100%;min-height:120px;padding:.8rem .9rem;border:1px solid var(--line);border-radius:8px;font:15px/1.5 ui-monospace,monospace;resize:vertical;background:#fff}
+  .tool textarea{width:100%;min-height:110px;padding:.8rem .9rem;border:1px solid var(--line);border-radius:8px;font:15px/1.5 ui-monospace,monospace;resize:vertical;background:#fff}
   .tool label{font-size:.85rem;color:var(--muted);margin-bottom:.4rem;display:block}
   .btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:.75rem 1.4rem;border-radius:10px;font-weight:600;font-size:.98rem;border:0;cursor:pointer;text-align:center}
   .btn:hover{filter:brightness(1.06)}
+  .btn:disabled{opacity:.6;cursor:not-allowed}
+  .pay{background:#fff;border:2px solid var(--accent);border-radius:16px;padding:1.8rem;text-align:center;margin-top:1rem;display:none}
+  .pay.show{display:block}
+  .pay .amount{font-size:2.2rem;font-weight:800;color:var(--ink);margin:.4rem 0}
+  .pay p{color:var(--muted);margin:.3rem 0 1.2rem}
+  .spinner{display:none;margin-top:1rem;color:var(--muted)}
   .result{margin-top:1rem;display:none}
   .result.show{display:block}
   table{border-collapse:collapse;width:100%;font-size:.92rem}
@@ -28,8 +34,6 @@
   th{background:var(--accent-soft);font-weight:600}
   td.ok{color:var(--accent);font-weight:600;white-space:nowrap}
   td.bad{color:#b42318;font-weight:600;white-space:nowrap}
-  .price{font-size:1.4rem;font-weight:800;margin:.3rem 0 .2rem}
-  .price small{font-size:.85rem;color:var(--muted);font-weight:500}
   .note{color:var(--muted);font-size:.8rem;margin-top:1.4rem}
   @media(max-width:640px){h1{font-size:1.6rem}}
 </style>
@@ -39,15 +43,22 @@
   <header>
     <a class="back" href="index.html">← Мегабухгалтерия</a><br>
     <h1>Проверка реквизитов</h1>
-    <p class="sub">ИНН, ОГРН, СНИЛС, БИК и счёт — проверка по контрольным числам. Опечатку видно сразу, до того как деньги ушли не туда.</p>
+    <p class="sub">ИНН, ОГРН, СНИЛС, БИК и счёт — проверка по контрольным числам. Результат — после оплаты 150 ₽.</p>
   </header>
 
   <section>
     <h2>Проверка онлайн</h2>
     <div class="card tool">
-      <label>Введите реквизиты — каждый на новой строке. Счёт проверяйте в виде счёт@БИК</label>
+      <label>Введите реквизиты — каждый на новой строке. Счёт — в виде счёт@БИК</label>
       <textarea id="inp" placeholder="7707083893&#10;1027700132195&#10;044525225&#10;40702810400000000005@044525225"></textarea>
       <div style="margin-top:.8rem"><button class="btn" id="btn">Проверить</button></div>
+      <div class="spinner" id="spin">Обработка…</div>
+      <div class="pay" id="pay">
+        <div class="amount">150 ₽</div>
+        <p>Получите результат проверки — расчётный счёт и вердикт по каждому реквизиту.</p>
+        <button class="btn" id="payBtn">Оплатить и получить результат</button>
+        <p style="font-size:.82rem;margin-top:.8rem">Тестовый режим: оплата сейчас не списывается. После подключения провайдера — реальная оплата через СБП/карту.</p>
+      </div>
       <div class="result" id="res"></div>
     </div>
   </section>
@@ -55,7 +66,6 @@
   <section>
     <h2>Что проверяется</h2>
     <div class="card">
-      <p style="margin:.2rem 0 .8rem;color:var(--muted)">Каждый реквизит содержит контрольные числа — по ним опечатку видно без баз данных.</p>
       <table>
         <tbody>
           <tr><td><b>ИНН</b> (10 / 12)</td><td>контрольные цифры</td></tr>
@@ -68,15 +78,7 @@
     </div>
   </section>
 
-  <section>
-    <h2>Цена</h2>
-    <div class="card">
-      <div class="price">от 150 ₽<small> / проверка</small></div>
-      <p style="margin:.6rem 0 0;color:var(--muted)">Если нужно проверить целую карточку контрагента или список — пришлите на <a href="mailto:kopalex@inbox.ru">kopalex@inbox.ru</a>.</p>
-    </div>
-  </section>
-
-  <p class="note">Проверка математическая — подтверждает корректность номера, но не существование и не статус организации. Существование и статус контрагента (действующий / ликвидирован) проверяйте по ЕГРЮЛ (egrul.nalog.ru), актуальность БИК — по справочнику ЦБ.</p>
+  <p class="note">Проверка математическая — подтверждает корректность номера, но не существование и не статус организации. Существование и статус контрагента проверяйте по ЕГРЮЛ (egrul.nalog.ru), актуальность БИК — по справочнику ЦБ.</p>
 </div>
 
 <script>
@@ -88,7 +90,7 @@ function inn(s){var d=digits(s);if(d.length===10){var k=K[10],sum=0;for(var i=0;
 function ogrn(s){var d=digits(s);if(d.length===13)return [(Number(d.slice(0,12))%11)%10==+d[12],"ОГРН (13 цифр)"];if(d.length===15)return [(Number(d.slice(0,14))%13)%10==+d[14],"ОГРНИП (15 цифр)"];return [false,"ОГРН: 13 (юрлицо) или 15 (ИП) цифр"];}
 function snils(s){var d=digits(s);if(d.length!==11)return [false,"СНИЛС: 11 цифр"];var t=0;for(var i=0;i<9;i++)t+=+d[i]*(9-i);var r=t%101;if(r===100)r=0;var ok=r==+d.slice(9,11),n="СНИЛС";if(+d.slice(0,9)<=1001998){n+=" (номера ≤001-001-998 не проверяются)";ok=true;}return [ok,n];}
 function bik(s){var d=digits(s);if(d.length!==9)return [false,"БИК: 9 цифр"];if(!d.startsWith("04"))return [false,"БИК: начинается с 04"];return [true,"БИК (структура)"];}
-function acc(a,bik){var a=digits(a),b=digits(bik);if(a.length!==20)return [false,"Счёт: 20 цифр"];if(b.length!==9)return [false,"Нужен БИК (9 цифр)"];var key=null,kind;a.startsWith("301")?(key="0"+b.slice(4,6)+a,kind="корреспондентский счёт"):(key=b.slice(-3)+a,kind="расчётный счёт");var w=[7,1,3],sum=0;for(var i=0;i<key.length;i++)sum+=+key[i]*w[i%3];return [sum%10===0,kind+" (ключевание с БИК "+b+")"];}
+function acc(a,bik){var a=digits(a),b=digits(bik);if(a.length!==20)return [false,"Счёт: 20 цифр"];if(b.length!==9)return [false,"Нужен БИК (9 цифр)"];var key=a.startsWith("301")?("0"+b.slice(4,6)+a):(b.slice(-3)+a);var kind=a.startsWith("301")?"корреспондентский счёт":"расчётный счёт";var w=[7,1,3],sum=0;for(var i=0;i<key.length;i++)sum+=+key[i]*w[i%3];return [sum%10===0,kind+" (ключевание с БИК "+b+")"];}
 function classify(t){t=String(t).trim();if(t.includes("@")){var j=t.indexOf("@");var r=acc(t.slice(0,j),t.slice(j+1));return {v:t,ty:"счёт + БИК",ok:r[0],note:r[1]};}
   var d=digits(t),up=t.toUpperCase().replace(/ /g,"");var list=[];
   if(d.length===10)list.push(["ИНН",inn]);
@@ -96,17 +98,33 @@ function classify(t){t=String(t).trim();if(t.includes("@")){var j=t.indexOf("@")
   else if(d.length===12)list.push(["ИНН",inn]);
   else if(d.length===13)list.push(["ОГРН",ogrn]);
   else if(d.length===15)list.push(["ОГРНИП",ogrn]);
-  else if(d.length===9){var isKpp=/^\d{4}[0-9A-Z]{2}\d{3}$/.test(up)&&!d.startsWith("04");if(isKpp)list.push(["КПП",function(){return [/^\d{4}[0-9A-Z]{2}\d{3}$/.test(up),"КПП (формат, без контрольного числа)"];}]);list.push(["БИК",bik]);}
+  else if(d.length===9){var isKpp=/^\d{4}[0-9A-Z]{2}\d{3}$/.test(up)&&!d.startsWith("04");if(isKpp)list.push(["КПП",function(t){return [/^\d{4}[0-9A-Z]{2}\d{3}$/.test(up),"КПП (формат, без контрольного числа")];}]);list.push(["БИК",bik]);}
   else if(d.length===20)list.push(["счёт",function(){return [null,"нужен БИК: укажите как счёт@БИК"];}]);
   else list.push(["не распознано",function(){return [null,"длина "+d.length+" цифр не подходит"];}]);
   for(var x of list){var r=x[1](t);if(r[0]===true)return {v:t,ty:x[0],ok:true,note:r[1]};if(r[0]===false)return {v:t,ty:x[0],ok:false,note:r[1]};}
   return {v:t,ty:"?",ok:null,note:list[0][1](t)[1]};}
+var pending="";
 document.getElementById("btn").onclick=function(){
   var lines=document.getElementById("inp").value.split(/\r?\n/).map(function(s){return s.trim();}).filter(Boolean);
-  var html="<table><tr><th>Значение</th><th>Тип</th><th>Статус</th><th>Пояснение</th></tr>";
-  lines.forEach(function(l){var r=classify(l);var st=r.ok===true?"<td class='ok'>OK</td>":r.ok===false?"<td class='bad'>ОШИБКА</td>":"<td>?</td>";html+="<tr><td>"+r.v+"</td><td>"+r.ty+"</td>"+st+"<td>"+r.note+"</td></tr>";});
-  html+="</table>";
-  var res=document.getElementById("res");res.innerHTML=html;res.classList.add("show");
+  if(!lines.length){alert("Введите реквизиты.");return;}
+  pending=lines;
+  document.getElementById("pay").classList.add("show");
+  document.getElementById("res").classList.remove("show");
+  document.getElementById("res").innerHTML="";
+  document.getElementById("pay").scrollIntoView({behavior:"smooth",block:"center"});
+};
+document.getElementById("payBtn").onclick=function(){
+  var b=this;b.disabled=true;var spin=document.getElementById("spin");spin.style.display="block";
+  // ТЕСТ-РЕЖИМ: показать результат сразу. При реальном провайдере здесь будет вызов
+  // платёжки и ожидание вебхука (Cloudflare Worker подтвердит оплату).
+  setTimeout(function(){
+    var html="<table><tr><th>Значение</th><th>Тип</th><th>Статус</th><th>Пояснение</th></tr>";
+    pending.forEach(function(l){var r=classify(l);var st=r.ok===true?"<td class='ok'>OK</td>":r.ok===false?"<td class='bad'>ОШИБКА</td>":"<td>?</td>";html+="<tr><td>"+r.v+"</td><td>"+r.ty+"</td>"+st+"<td>"+r.note+"</td></tr>";});
+    html+="</table>";
+    var res=document.getElementById("res");res.innerHTML=html;res.classList.add("show");
+    spin.style.display="none";b.disabled=false;b.textContent="Оплатить и получить результат";
+    res.scrollIntoView({behavior:"smooth",block:"center"});
+  },600);
 };
 </script>
 </body>

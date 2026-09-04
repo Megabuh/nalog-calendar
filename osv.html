@@ -27,6 +27,11 @@
   .btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:.9rem 1.5rem;border-radius:10px;font-weight:600;font-size:1.02rem;border:0;cursor:pointer;text-align:center}
   .btn:hover{filter:brightness(1.06)}
   .note{color:var(--muted);font-size:.8rem;margin-top:1.4rem}
+  .demo{display:grid;gap:.7rem;margin-top:.9rem}
+  .demo a{display:flex;align-items:center;gap:.7rem;background:var(--accent-soft);border:1px solid var(--line);border-radius:10px;padding:.8rem 1rem;text-decoration:none;color:var(--ink);font-weight:600}
+  .demo a:hover{background:#d8ece4}
+  .demo .icon{font-size:1.3rem}
+  .demo .small{font-weight:400;color:var(--muted);font-size:.82rem}
   @media(max-width:640px){h1{font-size:1.7rem}}
 </style>
 </head>
@@ -67,6 +72,17 @@
       <p style="margin:.2rem 0 1rem;color:var(--muted)">— готовый отчёт в двух форматах: <b>.xlsx</b> (таблица оборотов + лист проверок) и <b>.pdf</b> (наглядный разбор с выводами). Каждая проблема объяснена по-бухгалтерски — что и где смотреть.</p>
       <div class="price">490 ₽<small> / проверка</small></div>
       <p style="margin:.8rem 0 0;color:var(--muted)">Оплата — СБП / перевод. После проверки пришлю отчёт и чек из «Мой налог».</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Пример отчёта</h2>
+    <div class="card">
+      <p style="margin:.2rem 0 .6rem;color:var(--muted)">Демо-файлы, чтобы видеть, как выглядит результат. Нажмите, чтобы скачать.</p>
+      <div class="demo">
+        <a href="osv-report-demo.xlsx" download><span class="icon">📊</span><span>osv-report-demo.xlsx<span class="small"> — таблица оборотов + лист проверок</span></span></a>
+        <a href="osv-report-demo.pdf" download><span class="icon">📄</span><span>osv-report-demo.pdf<span class="small"> — наглядный разбор с выводами</span></span></a>
+      </div>
     </div>
   </section>
 

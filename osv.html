@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Проверка ОСВ из 1С — Мегабухгалтерия</title>
+<style>
+  :root{--bg:#f3f6fa;--ink:#172536;--muted:#5b6b7d;--accent:#1f6b4a;--accent-soft:#e6f2ec;--band:#24567a;--line:#dbe3ee;--gold:#b8860b}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+  .wrap{max-width:900px;margin:0 auto;padding:2.5rem 1.25rem 4rem}
+  a{color:var(--accent)}
+  header{text-align:center;padding-bottom:1.3rem}
+  .back{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:999px;padding:.35rem .9rem;font-size:.82rem;color:var(--muted);text-decoration:none;margin-bottom:1rem}
+  h1{font-size:2.1rem;line-height:1.15;margin:.3rem 0 .5rem}
+  .sub{color:var(--muted);font-size:1.08rem;max-width:620px;margin:0 auto}
+  section{margin:2.4rem 0}
+  h2{font-size:1.35rem;margin:0 0 1rem}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.6rem}
+  .steps{list-style:none;padding:0;margin:0;display:grid;gap:.9rem}
+  .steps li{display:flex;gap:.9rem;padding:.9rem 1rem;background:#fff;border:1px solid var(--line);border-radius:10px}
+  .steps .n{flex:0 0 auto;width:2rem;height:2rem;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .checks{list-style:none;padding:0;margin:0;display:grid;gap:.6rem}
+  .checks li{padding:.6rem .9rem;background:var(--accent-soft);border-radius:8px;font-size:.95rem}
+  .price{font-size:1.6rem;font-weight:800;margin:.3rem 0 .2rem}
+  .price small{font-size:.9rem;color:var(--muted);font-weight:500}
+  .btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:.9rem 1.5rem;border-radius:10px;font-weight:600;font-size:1.02rem;border:0;cursor:pointer;text-align:center}
+  .btn:hover{filter:brightness(1.06)}
+  .note{color:var(--muted);font-size:.8rem;margin-top:1.4rem}
+  @media(max-width:640px){h1{font-size:1.7rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="back" href="index.html">← Мегабухгалтерия</a><br>
+    <h1>Проверка ОСВ из 1С</h1>
+    <p class="sub">Загрузите оборотно-сальдовую ведомость — проверим баланс, найдём «красные сальдо», ошибки арифметики и аномалии, пришлём готовый отчёт.</p>
+  </header>
+
+  <section>
+    <h2>Что мы найдём</h2>
+    <div class="card">
+      <ul class="checks">
+        <li><b>Сбалансированность</b> — итоговые обороты и сальдо Дт = Кт. Расхождение — признак неполной выгрузки или проблемы в базе.</li>
+        <li><b>Арифметика по каждому счёту</b> — конечное сальдо = начальное + обороты. Разрыв — признак кривой выгрузки или ручной правки файла.</li>
+        <li><b>«Красные сальдо»</b> — минусовые остатки по кассе, банку, материалам, товарам. Классика: пересорт, ошибки последовательности проведения документов.</li>
+        <li><b>Аномалии</b> — скачки оборотов от месяца к месяцу, проводки в выходные.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Как отправить файл</h2>
+    <div class="card">
+      <ol class="steps">
+        <li><span class="n">1</span><div>В 1С: <b>Отчёты → Оборотно-сальдовая ведомость</b> за нужный период.</div></li>
+        <li><span class="n">2</span><div>Сохраните через <b>«Файл → Сохранить как»</b> в формате <b>.xlsx</b> или <b>.csv</b>.</div></li>
+        <li><span class="n">3</span><div>Пришлите файл на почту <a href="mailto:kopalex@inbox.ru"><b>kopalex@inbox.ru</b></a> — в письме укажите, что это проверка ОСВ и период.</div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <h2>Что вы получите</h2>
+    <div class="card">
+      <p style="margin:.2rem 0 1rem;color:var(--muted)">— готовый отчёт в двух форматах: <b>.xlsx</b> (таблица оборотов + лист проверок) и <b>.pdf</b> (наглядный разбор с выводами). Каждая проблема объяснена по-бухгалтерски — что и где смотреть.</p>
+      <div class="price">490 ₽<small> / проверка</small></div>
+      <p style="margin:.8rem 0 0;color:var(--muted)">Оплата — СБП / перевод. После проверки пришлю отчёт и чек из «Мой налог».</p>
+    </div>
+  </section>
+
+  <section style="text-align:center">
+    <a class="btn" href="mailto:kopalex@inbox.ru?subject=Проверка ОСВ">Отправить ОСВ на почту</a>
+  </section>
+
+  <p class="note">Файл читаем с первого листа .xlsx или .csv (кодировка utf-8 / windows-1251). Проверяем типовые ошибки; «красное сальдо» по авансам (60.02, 62.02) не считается ошибкой. Это инструмент проверки, а не аудит — итоговые решения принимает ваш бухгалтер.</p>
+</div>
+</body>
+</html>

@@ -98,7 +98,7 @@ function classify(t){t=String(t).trim();if(t.includes("@")){var j=t.indexOf("@")
   else if(d.length===12)list.push(["ИНН",inn]);
   else if(d.length===13)list.push(["ОГРН",ogrn]);
   else if(d.length===15)list.push(["ОГРНИП",ogrn]);
-  else if(d.length===9){var isKpp=/^\d{4}[0-9A-Z]{2}\d{3}$/.test(up)&&!d.startsWith("04");if(isKpp)list.push(["КПП",function(t){return [/^\d{4}[0-9A-Z]{2}\d{3}$/.test(up),"КПП (формат, без контрольного числа")];}]);list.push(["БИК",bik]);}
+  else if(d.length===9){var isKpp=/^\d{4}[0-9A-Z]{2}\d{3}$/.test(up)&&!d.startsWith("04");if(isKpp)list.push(["КПП",function(t){return [/^\d{4}[0-9A-Z]{2}\d{3}$/.test(up),"КПП (формат, без контрольного числа)"];}]);list.push(["БИК",bik]);}
   else if(d.length===20)list.push(["счёт",function(){return [null,"нужен БИК: укажите как счёт@БИК"];}]);
   else list.push(["не распознано",function(){return [null,"длина "+d.length+" цифр не подходит"];}]);
   for(var x of list){var r=x[1](t);if(r[0]===true)return {v:t,ty:x[0],ok:true,note:r[1]};if(r[0]===false)return {v:t,ty:x[0],ok:false,note:r[1]};}

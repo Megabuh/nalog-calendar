@@ -55,9 +55,9 @@
       <div class="spinner" id="spin">Обработка…</div>
       <div class="pay" id="pay">
         <div class="amount">150 ₽</div>
-        <p>Получите результат проверки — расчётный счёт и вердикт по каждому реквизиту.</p>
-        <button class="btn" id="payBtn">Оплатить и получить результат</button>
-        <p style="font-size:.82rem;margin-top:.8rem">Тестовый режим: оплата сейчас не списывается. После подключения провайдера — реальная оплата через СБП/карту.</p>
+        <p>Получите результат проверки — вердикт по каждому реквизиту.</p>
+        <button class="btn" id="payBtn">Оставить заявку на проверку</button>
+        <p style="font-size:.82rem;margin-top:.8rem">Оплата — по СБП. Реквизиты пришлю после заявки. После оплаты — чек из «Мой налог».</p>
       </div>
       <div class="result" id="res"></div>
     </div>
@@ -115,14 +115,13 @@ document.getElementById("btn").onclick=function(){
 };
 document.getElementById("payBtn").onclick=function(){
   var b=this;b.disabled=true;var spin=document.getElementById("spin");spin.style.display="block";
-  // ТЕСТ-РЕЖИМ: показать результат сразу. При реальном провайдере здесь будет вызов
-  // платёжки и ожидание вебхука (Cloudflare Worker подтвердит оплату).
   setTimeout(function(){
     var html="<table><tr><th>Значение</th><th>Тип</th><th>Статус</th><th>Пояснение</th></tr>";
     pending.forEach(function(l){var r=classify(l);var st=r.ok===true?"<td class='ok'>OK</td>":r.ok===false?"<td class='bad'>ОШИБКА</td>":"<td>?</td>";html+="<tr><td>"+r.v+"</td><td>"+r.ty+"</td>"+st+"<td>"+r.note+"</td></tr>";});
     html+="</table>";
+    html+="<p style='margin-top:.8rem;color:var(--muted)'>Заявка принята. Для получения полного отчёта отправьте реквизиты и оплату — я пришлю готовый результат на вашу почту.</p>";
     var res=document.getElementById("res");res.innerHTML=html;res.classList.add("show");
-    spin.style.display="none";b.disabled=false;b.textContent="Оплатить и получить результат";
+    spin.style.display="none";b.disabled=false;b.textContent="Оставить заявку на проверку";
     res.scrollIntoView({behavior:"smooth",block:"center"});
   },600);
 };

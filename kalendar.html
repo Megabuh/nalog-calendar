@@ -59,18 +59,18 @@
           <option value="ooo-usn-nds">ООО на УСН + НДС</option>
         </select>
       </div>
-      <div style="margin-top:.6rem"><button class="btn" id="btn">Оплатить 2 900 ₽</button></div>
+      <div style="margin-top:.6rem"><button class="btn" id="btn">Выбрать профиль</button></div>
       <div class="spinner" id="spin">Обработка…</div>
       <div class="pay" id="pay">
         <div class="amount">2 900 ₽</div>
         <p>Календарь <span id="profName">ООО на УСН</span> — файл .xlsx и .ics.</p>
-        <button class="btn" id="payBtn">Оплатить и получить файл</button>
-        <p style="font-size:.82rem;margin-top:.8rem">Тестовый режим: оплата сейчас не списывается. После подключения провайдера — реальная оплата через СБП/карту.</p>
+        <button class="btn" id="payBtn">Оставить заявку</button>
+        <p style="font-size:.82rem;margin-top:.8rem">Оплата — по СБП. Реквизиты пришлю после заявки. После оплаты — чек из «Мой налог».</p>
       </div>
       <div class="result" id="res">
-        <p style="font-weight:700;font-size:1.1rem">Готово! Ваш календарь:</p>
+        <p style="font-weight:700;font-size:1.1rem">Заявка принята. Пришлите оплату — реквизиты вышлю после заявки, и я пришлю ваш календарь:</p>
         <div class="files" id="files"></div>
-        <p style="color:var(--muted);font-size:.82rem">Файлы также отправлены на вашу почту.</p>
+        <p style="color:var(--muted);font-size:.82rem">Файлы отправлю после подтверждения оплаты.</p>
       </div>
     </div>
   </section>
@@ -112,7 +112,7 @@ document.getElementById('payBtn').onclick=function(){
       '<a href="'+p.xlsx+'" download><span>📊</span><span>'+p.xlsx+'<span class="small"> — таблица календаря</span></span></a>'+
       '<a href="'+p.ics+'" download><span>📅</span><span>'+p.ics+'<span class="small"> — импорт в календарь</span></span></a>';
     document.getElementById('res').classList.add('show');
-    spin.style.display='none';b.disabled=false;b.textContent='Оплатить и получить файл';
+    spin.style.display='none';b.disabled=false;b.textContent='Оставить заявку';
     document.getElementById('res').scrollIntoView({behavior:'smooth',block:'center'});
   },600);
 };

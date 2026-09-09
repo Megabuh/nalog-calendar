@@ -116,10 +116,8 @@ document.getElementById("btn").onclick=function(){
 document.getElementById("payBtn").onclick=function(){
   var b=this;b.disabled=true;var spin=document.getElementById("spin");spin.style.display="block";
   setTimeout(function(){
-    var html="<table><tr><th>Значение</th><th>Тип</th><th>Статус</th><th>Пояснение</th></tr>";
-    pending.forEach(function(l){var r=classify(l);var st=r.ok===true?"<td class='ok'>OK</td>":r.ok===false?"<td class='bad'>ОШИБКА</td>":"<td>?</td>";html+="<tr><td>"+r.v+"</td><td>"+r.ty+"</td>"+st+"<td>"+r.note+"</td></tr>";});
-    html+="</table>";
-    html+="<p style='margin-top:.8rem;color:var(--muted)'>Заявка принята. Отправьте оплату по реквизитам, которые вам пришлю, и получите полный отчёт проверки.</p>";
+    var html="<p style='font-weight:600;color:var(--accent)'>Заявка принята.</p>";
+    html+="<p style='color:var(--muted)'>Для получения результата отправьте оплату 150 ₽ по реквизитам, которые вам пришлю. После оплаты пришлю полный отчёт проверки на вашу почту.</p>";
     var res=document.getElementById("res");res.innerHTML=html;res.classList.add("show");
     spin.style.display="none";b.disabled=false;b.textContent="Оставить заявку на проверку";
     res.scrollIntoView({behavior:"smooth",block:"center"});

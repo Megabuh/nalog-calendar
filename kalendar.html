@@ -107,10 +107,9 @@ document.getElementById('btn').onclick=function(){document.getElementById('pay')
 document.getElementById('payBtn').onclick=function(){
   var b=this;b.disabled=true;var spin=document.getElementById('spin');spin.style.display='block';
   setTimeout(function(){
-    var p=PROFILES[profSel.value];
-    document.getElementById('files').innerHTML=
-      '<a href="'+p.xlsx+'" download><span>📊</span><span>'+p.xlsx+'<span class="small"> — таблица календаря</span></span></a>'+
-      '<a href="'+p.ics+'" download><span>📅</span><span>'+p.ics+'<span class="small"> — импорт в календарь</span></span></a>';
+    var html='<p style="font-weight:600;color:var(--accent)">Заявка принята.</p>';
+    html+='<p style="color:var(--muted)">Для получения календаря отправьте оплату 2 900 ₽ по реквизитам, которые вам пришлю. После оплаты пришлю файл .xlsx и .ics на вашу почту.</p>';
+    document.getElementById('res').innerHTML=html;document.getElementById('files').innerHTML='';
     document.getElementById('res').classList.add('show');
     spin.style.display='none';b.disabled=false;b.textContent='Оставить заявку';
     document.getElementById('res').scrollIntoView({behavior:'smooth',block:'center'});

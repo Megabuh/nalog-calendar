@@ -119,7 +119,7 @@ document.getElementById("payBtn").onclick=function(){
     var html="<table><tr><th>Значение</th><th>Тип</th><th>Статус</th><th>Пояснение</th></tr>";
     pending.forEach(function(l){var r=classify(l);var st=r.ok===true?"<td class='ok'>OK</td>":r.ok===false?"<td class='bad'>ОШИБКА</td>":"<td>?</td>";html+="<tr><td>"+r.v+"</td><td>"+r.ty+"</td>"+st+"<td>"+r.note+"</td></tr>";});
     html+="</table>";
-    html+="<p style='margin-top:.8rem;color:var(--muted)'>Заявка принята. Для получения полного отчёта отправьте реквизиты и оплату — я пришлю готовый результат на вашу почту.</p>";
+    html+="<p style='margin-top:.8rem;color:var(--muted)'>Заявка принята. Отправьте оплату по реквизитам, которые вам пришлю, и получите полный отчёт проверки.</p>";
     var res=document.getElementById("res");res.innerHTML=html;res.classList.add("show");
     spin.style.display="none";b.disabled=false;b.textContent="Оставить заявку на проверку";
     res.scrollIntoView({behavior:"smooth",block:"center"});

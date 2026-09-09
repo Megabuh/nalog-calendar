@@ -61,7 +61,7 @@
       <div class="pay" id="pay">
         <div class="amount">490 ₽</div>
         <p>Получите результат проверки и разбор найденных проблем.</p>
-        <button class="btn" id="payBtn">Оставить заявку на проверку</button>
+        <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLScp2HCMKtiJmO_9_milbK53VyJl352QWmJmy4LXdggK6ZhoXw/viewform" target="_blank" rel="noopener" id="payBtn">Оставить заявку на проверку</a>
         <p style="font-size:.82rem;margin-top:.8rem">Оплата — по СБП. Реквизиты пришлю после заявки. После оплаты — чек из «Мой налог».</p>
       </div>
       <div class="result" id="res"></div>
@@ -104,7 +104,6 @@ var pending=null;
 document.getElementById('drop').onclick=function(){document.getElementById('file').click();};
 document.getElementById('file').onchange=function(){readFile(this.files[0]);};
 function readFile(f){if(!f)return;var rd=new FileReader();rd.onload=function(e){var text=String(e.target.result);if(f.name&&/\.xlsx$/.test(f.name)){document.getElementById('res').innerHTML='<p style="color:var(--muted)">Файл .xlsx пока не распознаётся в браузере. Сохраните выгрузку как .csv («Файл → Сохранить как») и загрузите снова.</p>';document.getElementById('res').classList.add('show');return;}var rows=parseCsv(text.replace(/^\uFEFF/,''));var rep=detectReport(rows);var osv=null;if(rep.type==='ОСВ')osv=parseOsv(rows);if(!osv){document.getElementById('res').innerHTML='<p style="color:var(--muted)">Не удалось распознать структуру ОСВ. Проверьте, что это выгрузка «Оборотно-сальдовая ведомость» .csv/.txt.</p>';document.getElementById('res').classList.add('show');return;}var issues=osvChecks(osv);pending={issues:issues,accounts:osv.accounts,totals:osv.totals,period:rep.period};document.getElementById('res').classList.remove('show');document.getElementById('pay').classList.add('show');document.getElementById('pay').scrollIntoView({behavior:'smooth',block:'center'});};rd.readAsText(f);}
-document.getElementById('payBtn').onclick=function(){var b=this;b.disabled=true;var spin=document.getElementById('spin');spin.style.display='block';setTimeout(function(){if(!pending){spin.style.display='none';b.disabled=false;return;}var html='';html+='<p style="font-weight:600;color:var(--accent)">Заявка принята.</p>';html+='<p style="color:var(--muted)">Для получения результата отправьте оплату 490 ₽ по реквизитам, которые вам пришлю. После оплаты пришлю полный отчёт проверки на вашу почту.</p>';document.getElementById('res').innerHTML=html;document.getElementById('res').classList.add('show');spin.style.display='none';b.disabled=false;b.textContent='Оставить заявку на проверку';document.getElementById('res').scrollIntoView({behavior:'smooth',block:'center'});},600);};
 </script>
 </body>
 </html>

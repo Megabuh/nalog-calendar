@@ -64,14 +64,10 @@
       <div class="pay" id="pay">
         <div class="amount">2 900 ₽</div>
         <p>Календарь <span id="profName">ООО на УСН</span> — файл .xlsx и .ics.</p>
-        <button class="btn" id="payBtn">Оставить заявку</button>
+        <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLScp2HCMKtiJmO_9_milbK53VyJl352QWmJmy4LXdggK6ZhoXw/viewform" target="_blank" rel="noopener" id="payBtn">Оставить заявку</a>
         <p style="font-size:.82rem;margin-top:.8rem">Оплата — по СБП. Реквизиты пришлю после заявки. После оплаты — чек из «Мой налог».</p>
       </div>
-      <div class="result" id="res">
-        <p style="font-weight:700;font-size:1.1rem">Заявка принята. Отправьте оплату по реквизитам, которые вам пришлю, и получите ваш календарь:</p>
-        <div class="files" id="files"></div>
-        <p style="color:var(--muted);font-size:.82rem">Файлы отправлю после подтверждения оплаты.</p>
-      </div>
+      <p class="note" style="margin-top:1rem">После отправки заявки пришлю реквизиты для оплаты. После оплаты вышлю файлы .xlsx и .ics на вашу почту.</p>
     </div>
   </section>
 
@@ -104,17 +100,6 @@ var profSel=document.getElementById('prof');
 document.getElementById('profName').textContent=PROFILES[profSel.value].name;
 profSel.onchange=function(){document.getElementById('profName').textContent=PROFILES[profSel.value].name;};
 document.getElementById('btn').onclick=function(){document.getElementById('pay').classList.add('show');document.getElementById('res').classList.remove('show');document.getElementById('pay').scrollIntoView({behavior:'smooth',block:'center'});};
-document.getElementById('payBtn').onclick=function(){
-  var b=this;b.disabled=true;var spin=document.getElementById('spin');spin.style.display='block';
-  setTimeout(function(){
-    var html='<p style="font-weight:600;color:var(--accent)">Заявка принята.</p>';
-    html+='<p style="color:var(--muted)">Для получения календаря отправьте оплату 2 900 ₽ по реквизитам, которые вам пришлю. После оплаты пришлю файл .xlsx и .ics на вашу почту.</p>';
-    document.getElementById('res').innerHTML=html;document.getElementById('files').innerHTML='';
-    document.getElementById('res').classList.add('show');
-    spin.style.display='none';b.disabled=false;b.textContent='Оставить заявку';
-    document.getElementById('res').scrollIntoView({behavior:'smooth',block:'center'});
-  },600);
-};
 </script>
 </body>
 </html>

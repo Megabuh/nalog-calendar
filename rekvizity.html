@@ -56,7 +56,7 @@
       <div class="pay" id="pay">
         <div class="amount">150 ₽</div>
         <p>Получите результат проверки — вердикт по каждому реквизиту.</p>
-        <button class="btn" id="payBtn">Оставить заявку на проверку</button>
+        <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLScp2HCMKtiJmO_9_milbK53VyJl352QWmJmy4LXdggK6ZhoXw/viewform" target="_blank" rel="noopener" id="payBtn">Оставить заявку на проверку</a>
         <p style="font-size:.82rem;margin-top:.8rem">Оплата — по СБП. Реквизиты пришлю после заявки. После оплаты — чек из «Мой налог».</p>
       </div>
       <div class="result" id="res"></div>
@@ -112,16 +112,6 @@ document.getElementById("btn").onclick=function(){
   document.getElementById("res").classList.remove("show");
   document.getElementById("res").innerHTML="";
   document.getElementById("pay").scrollIntoView({behavior:"smooth",block:"center"});
-};
-document.getElementById("payBtn").onclick=function(){
-  var b=this;b.disabled=true;var spin=document.getElementById("spin");spin.style.display="block";
-  setTimeout(function(){
-    var html="<p style='font-weight:600;color:var(--accent)'>Заявка принята.</p>";
-    html+="<p style='color:var(--muted)'>Для получения результата отправьте оплату 150 ₽ по реквизитам, которые вам пришлю. После оплаты пришлю полный отчёт проверки на вашу почту.</p>";
-    var res=document.getElementById("res");res.innerHTML=html;res.classList.add("show");
-    spin.style.display="none";b.disabled=false;b.textContent="Оставить заявку на проверку";
-    res.scrollIntoView({behavior:"smooth",block:"center"});
-  },600);
 };
 </script>
 </body>
